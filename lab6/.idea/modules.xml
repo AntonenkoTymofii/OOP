@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/determinate.prog/determinate.prog.iml" filepath="$PROJECT_DIR$/determinate.prog/determinate.prog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/generate.prog/generate.prog.iml" filepath="$PROJECT_DIR$/generate.prog/generate.prog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/lab6.iml" filepath="$PROJECT_DIR$/.idea/lab6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/main.prog/main.prog.iml" filepath="$PROJECT_DIR$/main.prog/main.prog.iml" />
+    </modules>
+  </component>
+</project>
