@@ -1,38 +1,35 @@
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.awt.event.*;
 import java.util.ArrayList;
 
 public class MainWindow extends JFrame {
 
     private final ShapeEditor shapeEditor;
-    private final JRadioButton dotButton = new JRadioButton("Крапка");
-    private final JRadioButton lineButton = new JRadioButton("Лінія");
-    private final JRadioButton rectangleButton = new JRadioButton("Прямокутник");
-    private final JRadioButton ellipseButton = new JRadioButton("Еліпс");
-    private final JRadioButton cubeButton = new JRadioButton("Куб");
-    private final JRadioButton lineEllipseButton = new JRadioButton("Лінія з двома кругами");
+    public static JRadioButton dotButton = new JRadioButton("Крапка");
+    public static JRadioButton lineButton = new JRadioButton("Лінія");
+    public static JRadioButton rectangleButton = new JRadioButton("Прямокутник");
+    public static JRadioButton ellipseButton = new JRadioButton("Еліпс");
+    public static JRadioButton cubeButton = new JRadioButton("Куб");
+    public static JRadioButton lineEllipseButton = new JRadioButton("Лінія з двома кругами");
     private final MyTable table;
     private final ToolWindow toolWindow;
     private Point startPoint;
     private Point endPoint;
-    private String name;
+
 
     public MainWindow() {
         ShapeEditor shapeEditor1;
         super.setTitle("Розрахункова графічна робота");
         super.setBounds(15, 15, 1250, 650);
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        super.repaint();
+
         shapeEditor1 = new ShapeEditor();
         table = MyTable.getInstance(this, shapeEditor1);
         toolWindow = new ToolWindow(this);
+
         JMenuItem clearDesk = new JMenuItem("Очистити");
         clearDesk.addActionListener(e -> {
             clearPanel();
@@ -41,13 +38,14 @@ public class MainWindow extends JFrame {
         JButton openTable = new JButton("Відкрити таблицю");
         openTable.addActionListener(e -> {
             table.setVisible(true);
+            super.repaint();
         });
 
         JButton openToolWindow = new JButton("Відкрити вікно опцій");
-        openTable.addActionListener(e -> {
+        openToolWindow.addActionListener(e -> {
             toolWindow.setVisible(true);
+            super.repaint();
         });
-
 
         shapeEditor1 = table.getShapeEditor();
         shapeEditor = shapeEditor1;
@@ -56,6 +54,8 @@ public class MainWindow extends JFrame {
         super.repaint();
         JMenuBar menuBar = new JMenuBar();
         JMenu optionsMenu = new JMenu("Малювати");
+
+
 
         ButtonGroup buttonGroup = new ButtonGroup();
 
@@ -78,6 +78,7 @@ public class MainWindow extends JFrame {
         menuBar.add(openTable);
         menuBar.add(openToolWindow);
         super.setJMenuBar(menuBar);
+        super.repaint();
 
         ItemListener itemListener = e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -104,56 +105,11 @@ public class MainWindow extends JFrame {
         lineEllipseButton.addItemListener(itemListener);
 
         super.add(panel);
+        super.repaint();
 
         //------------------------------------------------------------------
 
-        try {
-            ServerSocket serverSocket = new ServerSocket(8888);
-            try {
-                Socket socket = serverSocket.accept();
-                DataInputStream dis = new DataInputStream(socket.getInputStream());
 
-                name = dis.readLine();
-                socket.close();
-                dis.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            serverSocket.close();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        switch (name){
-            case ("Dot"):
-                dotButton.setSelected(true);
-                break;
-            case ("Line"):
-                lineButton.setSelected(true);
-                break;
-            case "Rectangle":
-                rectangleButton.setSelected(true);
-                break;
-            case "Ellipse":
-                ellipseButton.setSelected(true);
-                break;
-            case "Cube":
-                cubeButton.setSelected(true);
-                break;
-            case "Line and ellipse":
-                lineEllipseButton.setSelected(true);
-                break;
-            case "Clear":
-                clearPanel();
-                break;
-            case "Help":
-                String message = "Програма створена для намалювання геометричних фігур.\n" +
-                    "Це графічний редактор з набором таких фігур як: точка, лінія, прямокутник, еліпс.\n" +
-                    "Для намалювання цих фігур ви можете використовувати Панель інстументів або Меню " +
-                        "\"Малювати\".\n" + "У вас є можливість очищати поле для малювання за добопогою " +
-                        "кнопки \"Очистити\".";
-                JOptionPane.showMessageDialog(this, message);
-                break;
-        }
     }
 
     private void clearPanel() {

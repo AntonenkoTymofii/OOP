@@ -1,16 +1,14 @@
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
+
 
 public class ToolWindow extends JDialog {
 
-    private final JButton[] buttons = new JButton[8];
+    private final JButton[] buttons = new JButton[7];
     public ToolWindow(JFrame parentFrame) {
         super(parentFrame, "", false);
-        super.setBounds(50, 100, 50, 100);
+        super.setBounds(50, 100, 50, 400);
 
         ImageIcon dot = new ImageIcon("dot.png");
         ImageIcon line = new ImageIcon("line.png");
@@ -18,7 +16,6 @@ public class ToolWindow extends JDialog {
         ImageIcon ellipse = new ImageIcon("ellipse.png");
         ImageIcon cube = new ImageIcon("cube.png");
         ImageIcon lineEllipse = new ImageIcon("lineEllipse.png");
-        ImageIcon trash = new ImageIcon("trash.png");
         ImageIcon help = new ImageIcon("help.png");
 
 
@@ -28,8 +25,7 @@ public class ToolWindow extends JDialog {
         buttons[3] = new JButton("", ellipse);
         buttons[4] = new JButton("", cube);
         buttons[5] = new JButton("", lineEllipse);
-        buttons[6] = new JButton("", trash);
-        buttons[7] = new JButton("", help);
+        buttons[6] = new JButton("", help);
 
 
         buttons[0].setToolTipText("Точка");
@@ -38,33 +34,41 @@ public class ToolWindow extends JDialog {
         buttons[3].setToolTipText("Еліпс");
         buttons[4].setToolTipText("Куб");
         buttons[5].setToolTipText("Лінія з еліпсом");
-        buttons[6].setToolTipText("Очистити");
-        buttons[7].setToolTipText("Довідка");
+        buttons[6].setToolTipText("Довідка");
 
         buttons[0].addActionListener(e -> {
-            sendData("Dot");
+            MainWindow.dotButton.setSelected(true);
         });
         buttons[1].addActionListener(e -> {
-            sendData("Line");
+            MainWindow.lineButton.setSelected(true);
         });
         buttons[2].addActionListener(e -> {
-            sendData("Rectangle");
+            MainWindow.rectangleButton.setSelected(true);
         });
         buttons[3].addActionListener(e -> {
-            sendData("Ellipse");
+            MainWindow.ellipseButton.setSelected(true);
         });
         buttons[4].addActionListener(e -> {
-            sendData("Cube");
+            MainWindow.cubeButton.setSelected(true);
         });
         buttons[5].addActionListener(e -> {
-            sendData("Line and ellipse");
+            MainWindow.lineEllipseButton.setSelected(true);
         });
         buttons[6].addActionListener(e -> {
-            sendData("Clear");
+            String message = "Програма створена для намалювання геометричних фігур.\n" +
+                    "Це графічний редактор з набором таких фігур як: точка, лінія, прямокутник, еліпс.\n" +
+                    "Для намалювання цих фігур ви можете використовувати Панель інстументів або Меню \"Малювати\".\n" +
+                    "У вас є можливість очищати поле для малювання за добопогою кнопки \"Очистити\".";
+            JOptionPane.showMessageDialog(this, message);
         });
-        buttons[7].addActionListener(e -> {
-            sendData("Help");
-        });
+
+        super.add(buttons[0]);
+        super.add(buttons[1]);
+        super.add(buttons[2]);
+        super.add(buttons[3]);
+        super.add(buttons[4]);
+        super.add(buttons[5]);
+        super.add(buttons[6]);
 
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -89,25 +93,6 @@ public class ToolWindow extends JDialog {
             for (int i = 0; i < buttons.length; i++) {
                 buttons[i].setBounds(0, i * buttonHeight, buttonWidth, buttonHeight);
             }
-        }
-    }
-    private void sendData(String message){
-        try {
-
-            try {
-                Socket socket = new Socket("localhost", 8888);
-                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
-                dos.writeChars(message);
-                socket.close();
-                dos.close();
-
-            } catch (IOException exception) {
-                exception.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Помилка відправки даних на сервер!");
-            }
-
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "Введіть коректні числові значення!");
         }
     }
 }
