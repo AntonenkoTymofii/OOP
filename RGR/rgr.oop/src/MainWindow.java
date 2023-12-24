@@ -4,6 +4,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 
 public class MainWindow extends JFrame {
@@ -16,8 +20,10 @@ public class MainWindow extends JFrame {
     private final JRadioButton cubeButton = new JRadioButton("Куб");
     private final JRadioButton lineEllipseButton = new JRadioButton("Лінія з двома кругами");
     private final MyTable table;
+    private final ToolWindow toolWindow;
     private Point startPoint;
     private Point endPoint;
+    private String name;
 
     public MainWindow() {
         ShapeEditor shapeEditor1;
@@ -26,7 +32,7 @@ public class MainWindow extends JFrame {
         super.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         shapeEditor1 = new ShapeEditor();
         table = MyTable.getInstance(this, shapeEditor1);
-
+        toolWindow = new ToolWindow(this);
         JMenuItem clearDesk = new JMenuItem("Очистити");
         clearDesk.addActionListener(e -> {
             clearPanel();
@@ -37,10 +43,11 @@ public class MainWindow extends JFrame {
             table.setVisible(true);
         });
 
-        JButton closeTable = new JButton("Закрити таблицю");
-        closeTable.addActionListener(e -> {
-            table.dispose();
+        JButton openToolWindow = new JButton("Відкрити вікно опцій");
+        openTable.addActionListener(e -> {
+            toolWindow.setVisible(true);
         });
+
 
         shapeEditor1 = table.getShapeEditor();
         shapeEditor = shapeEditor1;
@@ -69,7 +76,7 @@ public class MainWindow extends JFrame {
 
         menuBar.add(optionsMenu);
         menuBar.add(openTable);
-        menuBar.add(closeTable);
+        menuBar.add(openToolWindow);
         super.setJMenuBar(menuBar);
 
         ItemListener itemListener = e -> {
@@ -96,42 +103,57 @@ public class MainWindow extends JFrame {
         cubeButton.addItemListener(itemListener);
         lineEllipseButton.addItemListener(itemListener);
 
+        super.add(panel);
+
         //------------------------------------------------------------------
 
-//        dotToolButton.addActionListener(e -> {
-//            dotButton.setSelected(true);
-//        });
-//
-//        lineToolButton.addActionListener(e -> {
-//            lineButton.setSelected(true);
-//        });
-//
-//        rectangleToolButton.addActionListener(e -> {
-//            rectangleButton.setSelected(true);
-//        });
-//
-//        ellipseToolButton.addActionListener(e -> {
-//            ellipseButton.setSelected(true);
-//        });
-//
-//        cubeToolButton.addActionListener(e -> {
-//            cubeButton.setSelected(true);
-//        });
-//
-//        lineEllipseToolButton.addActionListener(e -> {
-//            lineEllipseButton.setSelected(true);
-//        });
-//
-//        trashToolButton.addActionListener(e -> {clearPanel();});
-//
-//        helpToolButton.addActionListener(e -> {
-//            String message = "Програма створена для намалювання геометричних фігур.\n" +
-//                    "Це графічний редактор з набором таких фігур як: точка, лінія, прямокутник, еліпс.\n" +
-//                    "Для намалювання цих фігур ви можете використовувати Панель інстументів або Меню \"Малювати\".\n" +
-//                    "У вас є можливість очищати поле для малювання за добопогою кнопки \"Очистити\".";
-//            JOptionPane.showMessageDialog(this, message);
-//        });
-//
+        try {
+            ServerSocket serverSocket = new ServerSocket(8888);
+            try {
+                Socket socket = serverSocket.accept();
+                DataInputStream dis = new DataInputStream(socket.getInputStream());
+
+                name = dis.readLine();
+                socket.close();
+                dis.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            serverSocket.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        switch (name){
+            case ("Dot"):
+                dotButton.setSelected(true);
+                break;
+            case ("Line"):
+                lineButton.setSelected(true);
+                break;
+            case "Rectangle":
+                rectangleButton.setSelected(true);
+                break;
+            case "Ellipse":
+                ellipseButton.setSelected(true);
+                break;
+            case "Cube":
+                cubeButton.setSelected(true);
+                break;
+            case "Line and ellipse":
+                lineEllipseButton.setSelected(true);
+                break;
+            case "Clear":
+                clearPanel();
+                break;
+            case "Help":
+                String message = "Програма створена для намалювання геометричних фігур.\n" +
+                    "Це графічний редактор з набором таких фігур як: точка, лінія, прямокутник, еліпс.\n" +
+                    "Для намалювання цих фігур ви можете використовувати Панель інстументів або Меню " +
+                        "\"Малювати\".\n" + "У вас є можливість очищати поле для малювання за добопогою " +
+                        "кнопки \"Очистити\".";
+                JOptionPane.showMessageDialog(this, message);
+                break;
+        }
     }
 
     private void clearPanel() {
