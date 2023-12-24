@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
 public class ToolWindow extends JDialog {
 
-    private JButton[] buttons = new JButton[8];
+    private final JButton[] buttons = new JButton[8];
     public ToolWindow(JFrame parentFrame) {
         super(parentFrame, "", false);
         super.setBounds(50, 100, 50, 100);
@@ -38,6 +41,31 @@ public class ToolWindow extends JDialog {
         buttons[6].setToolTipText("Очистити");
         buttons[7].setToolTipText("Довідка");
 
+        buttons[0].addActionListener(e -> {
+            sendData("Dot");
+        });
+        buttons[1].addActionListener(e -> {
+            sendData("Line");
+        });
+        buttons[2].addActionListener(e -> {
+            sendData("Rectangle");
+        });
+        buttons[3].addActionListener(e -> {
+            sendData("Ellipse");
+        });
+        buttons[4].addActionListener(e -> {
+            sendData("Cube");
+        });
+        buttons[5].addActionListener(e -> {
+            sendData("Line and ellipse");
+        });
+        buttons[6].addActionListener(e -> {
+            sendData("Clear");
+        });
+        buttons[7].addActionListener(e -> {
+            sendData("Help");
+        });
+
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -61,6 +89,25 @@ public class ToolWindow extends JDialog {
             for (int i = 0; i < buttons.length; i++) {
                 buttons[i].setBounds(0, i * buttonHeight, buttonWidth, buttonHeight);
             }
+        }
+    }
+    private void sendData(String message){
+        try {
+
+            try {
+                Socket socket = new Socket("localhost", 8888);
+                DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+                dos.writeChars(message);
+                socket.close();
+                dos.close();
+
+            } catch (IOException exception) {
+                exception.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Помилка відправки даних на сервер!");
+            }
+
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Введіть коректні числові значення!");
         }
     }
 }

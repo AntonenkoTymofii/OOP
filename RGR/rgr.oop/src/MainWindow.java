@@ -98,85 +98,40 @@ public class MainWindow extends JFrame {
 
         //------------------------------------------------------------------
 
-        JToolBar toolbar = new JToolBar();
-        Container cont = super.getContentPane();
-
-        ImageIcon dot = new ImageIcon("dot.png");
-        ImageIcon line = new ImageIcon("line.png");
-        ImageIcon rectangle = new ImageIcon("rectangle.png");
-        ImageIcon ellipse = new ImageIcon("ellipse.png");
-        ImageIcon cube = new ImageIcon("cube.png");
-        ImageIcon lineEllipse = new ImageIcon("lineEllipse.png");
-        ImageIcon trash = new ImageIcon("trash.png");
-        ImageIcon help = new ImageIcon("help.png");
-
-
-        JButton dotToolButton = new JButton("", dot);
-        JButton lineToolButton = new JButton("", line);
-        JButton rectangleToolButton = new JButton("", rectangle);
-        JButton ellipseToolButton = new JButton("", ellipse);
-        JButton cubeToolButton = new JButton("", cube);
-        JButton lineEllipseToolButton = new JButton("", lineEllipse);
-        JButton trashToolButton = new JButton("", trash);
-        JButton helpToolButton = new JButton("", help);
-
-        dotToolButton.setToolTipText("Точка");
-        lineToolButton.setToolTipText("Лінія");
-        rectangleToolButton.setToolTipText("Прямокутник");
-        ellipseToolButton.setToolTipText("Еліпс");
-        cubeToolButton.setToolTipText("Куб");
-        lineEllipseToolButton.setToolTipText("Лінія з еліпсом");
-        trashToolButton.setToolTipText("Очистити");
-        helpToolButton.setToolTipText("Довідка");
-        super.repaint();
-
-        dotToolButton.addActionListener(e -> {
-            dotButton.setSelected(true);
-        });
-
-        lineToolButton.addActionListener(e -> {
-            lineButton.setSelected(true);
-        });
-
-        rectangleToolButton.addActionListener(e -> {
-            rectangleButton.setSelected(true);
-        });
-
-        ellipseToolButton.addActionListener(e -> {
-            ellipseButton.setSelected(true);
-        });
-
-        cubeToolButton.addActionListener(e -> {
-            cubeButton.setSelected(true);
-        });
-
-        lineEllipseToolButton.addActionListener(e -> {
-            lineEllipseButton.setSelected(true);
-        });
-
-        trashToolButton.addActionListener(e -> {clearPanel();});
-
-        helpToolButton.addActionListener(e -> {
-            String message = "Програма створена для намалювання геометричних фігур.\n" +
-                    "Це графічний редактор з набором таких фігур як: точка, лінія, прямокутник, еліпс.\n" +
-                    "Для намалювання цих фігур ви можете використовувати Панель інстументів або Меню \"Малювати\".\n" +
-                    "У вас є можливість очищати поле для малювання за добопогою кнопки \"Очистити\".";
-            JOptionPane.showMessageDialog(this, message);
-        });
-
-        toolbar.add(dotToolButton);
-        toolbar.add(lineToolButton);
-        toolbar.add(rectangleToolButton);
-        toolbar.add(ellipseToolButton);
-        toolbar.add(cubeToolButton);
-        toolbar.add(lineEllipseToolButton);
-        toolbar.add(trashToolButton);
-        toolbar.add(helpToolButton);
-
-        cont.add(toolbar, BorderLayout.NORTH);
-        super.add(toolbar);
-        getContentPane().add(panel);
-        panel.add(toolbar ,BorderLayout.CENTER);
+//        dotToolButton.addActionListener(e -> {
+//            dotButton.setSelected(true);
+//        });
+//
+//        lineToolButton.addActionListener(e -> {
+//            lineButton.setSelected(true);
+//        });
+//
+//        rectangleToolButton.addActionListener(e -> {
+//            rectangleButton.setSelected(true);
+//        });
+//
+//        ellipseToolButton.addActionListener(e -> {
+//            ellipseButton.setSelected(true);
+//        });
+//
+//        cubeToolButton.addActionListener(e -> {
+//            cubeButton.setSelected(true);
+//        });
+//
+//        lineEllipseToolButton.addActionListener(e -> {
+//            lineEllipseButton.setSelected(true);
+//        });
+//
+//        trashToolButton.addActionListener(e -> {clearPanel();});
+//
+//        helpToolButton.addActionListener(e -> {
+//            String message = "Програма створена для намалювання геометричних фігур.\n" +
+//                    "Це графічний редактор з набором таких фігур як: точка, лінія, прямокутник, еліпс.\n" +
+//                    "Для намалювання цих фігур ви можете використовувати Панель інстументів або Меню \"Малювати\".\n" +
+//                    "У вас є можливість очищати поле для малювання за добопогою кнопки \"Очистити\".";
+//            JOptionPane.showMessageDialog(this, message);
+//        });
+//
     }
 
     private void clearPanel() {
