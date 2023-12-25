@@ -2,17 +2,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.ArrayList;
 
 
 public class ToolWindow extends JDialog {
 
     private final JButton[] buttons = new JButton[8];
-    private final ShapeEditor shapeEditor;
-    public ToolWindow(JFrame parentFrame, ShapeEditor shapeEditor_m) {
+    public ToolWindow(JFrame parentFrame) {
         super(parentFrame, "", false);
         super.setBounds(50, 100, 50, 400);
-        shapeEditor = shapeEditor_m;
 
         ImageIcon dot = new ImageIcon("dot.png");
         ImageIcon line = new ImageIcon("line.png");
@@ -43,32 +40,19 @@ public class ToolWindow extends JDialog {
         buttons[6].setToolTipText("Заповнення");
         buttons[7].setToolTipText("Довідка");
 
-        buttons[0].addActionListener(e -> {
-            MainWindow.dotButton.setSelected(true);
-        });
-        buttons[1].addActionListener(e -> {
-            MainWindow.lineButton.setSelected(true);
-        });
-        buttons[2].addActionListener(e -> {
-            MainWindow.rectangleButton.setSelected(true);
-        });
-        buttons[3].addActionListener(e -> {
-            MainWindow.ellipseButton.setSelected(true);
-        });
-        buttons[4].addActionListener(e -> {
-            MainWindow.cubeButton.setSelected(true);
-        });
-        buttons[5].addActionListener(e -> {
-            MainWindow.lineEllipseButton.setSelected(true);
-        });
-        buttons[6].addActionListener(e -> {
-            showColorDialog(parentFrame, buttons[6]);
-        });
+        buttons[0].addActionListener(e -> MainWindow.dotButton.setSelected(true));
+        buttons[1].addActionListener(e -> MainWindow.lineButton.setSelected(true));
+        buttons[2].addActionListener(e -> MainWindow.rectangleButton.setSelected(true));
+        buttons[3].addActionListener(e -> MainWindow.ellipseButton.setSelected(true));
+        buttons[4].addActionListener(e -> MainWindow.cubeButton.setSelected(true));
+        buttons[5].addActionListener(e -> MainWindow.lineEllipseButton.setSelected(true));
+        buttons[6].addActionListener(e -> showColorDialog(parentFrame, buttons[6]));
         buttons[7].addActionListener(e -> {
-            String message = "Програма створена для намалювання геометричних фігур.\n" +
-                    "Це графічний редактор з набором таких фігур як: точка, лінія, прямокутник, еліпс.\n" +
-                    "Для намалювання цих фігур ви можете використовувати Панель інстументів або Меню \"Малювати\".\n" +
-                    "У вас є можливість очищати поле для малювання за добопогою кнопки \"Очистити\".";
+            String message = """
+                    Програма створена для намалювання геометричних фігур. Це графічний редактор з\s
+                    набором таких фігур як: точка, лінія, прямокутник, еліпс. Для намалювання цих фігур\s
+                    ви можете використовувати Панель інстументів або Меню "Малювати". У вас є\s
+                    можливість очищати поле для малювання за добопогою кнопки "Очистити".""";
             JOptionPane.showMessageDialog(this, message);
         });
 
@@ -79,6 +63,7 @@ public class ToolWindow extends JDialog {
         super.add(buttons[4]);
         super.add(buttons[5]);
         super.add(buttons[6]);
+        super.add(buttons[7]);
 
         addComponentListener(new ComponentAdapter() {
             @Override
@@ -93,15 +78,13 @@ public class ToolWindow extends JDialog {
 
         if (width >= height) {
             int buttonWidth = width / 9;
-            int buttonHeight = height;
             for (int i = 0; i < buttons.length; i++) {
-                buttons[i].setBounds(i * buttonWidth, 0, buttonWidth, buttonHeight);
+                buttons[i].setBounds(i * buttonWidth, 0, buttonWidth, height);
             }
         } else {
-            int buttonWidth = width;
             int buttonHeight = height / 9;
             for (int i = 0; i < buttons.length; i++) {
-                buttons[i].setBounds(0, i * buttonHeight, buttonWidth, buttonHeight);
+                buttons[i].setBounds(0, i * buttonHeight, width, buttonHeight);
             }
         }
     }

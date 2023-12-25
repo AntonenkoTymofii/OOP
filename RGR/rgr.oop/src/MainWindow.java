@@ -28,12 +28,10 @@ public class MainWindow extends JFrame {
 
         shapeEditor1 = new ShapeEditor();
         table = MyTable.getInstance(this, shapeEditor1);
-        toolWindow = new ToolWindow(this, shapeEditor1);
+        toolWindow = new ToolWindow(this);
 
         JMenuItem clearDesk = new JMenuItem("Очистити");
-        clearDesk.addActionListener(e -> {
-            clearPanel();
-        });
+        clearDesk.addActionListener(e -> clearPanel());
 
         JButton openTable = new JButton("Відкрити таблицю");
         openTable.addActionListener(e -> {
