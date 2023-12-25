@@ -1,14 +1,18 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 
 
 public class ToolWindow extends JDialog {
 
-    private final JButton[] buttons = new JButton[7];
-    public ToolWindow(JFrame parentFrame) {
+    private final JButton[] buttons = new JButton[8];
+    private final ShapeEditor shapeEditor;
+    public ToolWindow(JFrame parentFrame, ShapeEditor shapeEditor_m) {
         super(parentFrame, "", false);
         super.setBounds(50, 100, 50, 400);
+        shapeEditor = shapeEditor_m;
 
         ImageIcon dot = new ImageIcon("dot.png");
         ImageIcon line = new ImageIcon("line.png");
@@ -17,6 +21,7 @@ public class ToolWindow extends JDialog {
         ImageIcon cube = new ImageIcon("cube.png");
         ImageIcon lineEllipse = new ImageIcon("lineEllipse.png");
         ImageIcon help = new ImageIcon("help.png");
+        ImageIcon fill = new ImageIcon("fill.png");
 
 
         buttons[0] = new JButton("", dot);
@@ -25,7 +30,8 @@ public class ToolWindow extends JDialog {
         buttons[3] = new JButton("", ellipse);
         buttons[4] = new JButton("", cube);
         buttons[5] = new JButton("", lineEllipse);
-        buttons[6] = new JButton("", help);
+        buttons[6] = new JButton("", fill);
+        buttons[7] = new JButton("", help);
 
 
         buttons[0].setToolTipText("Точка");
@@ -34,7 +40,8 @@ public class ToolWindow extends JDialog {
         buttons[3].setToolTipText("Еліпс");
         buttons[4].setToolTipText("Куб");
         buttons[5].setToolTipText("Лінія з еліпсом");
-        buttons[6].setToolTipText("Довідка");
+        buttons[6].setToolTipText("Заповнення");
+        buttons[7].setToolTipText("Довідка");
 
         buttons[0].addActionListener(e -> {
             MainWindow.dotButton.setSelected(true);
@@ -55,6 +62,9 @@ public class ToolWindow extends JDialog {
             MainWindow.lineEllipseButton.setSelected(true);
         });
         buttons[6].addActionListener(e -> {
+            showColorDialog(parentFrame, buttons[6]);
+        });
+        buttons[7].addActionListener(e -> {
             String message = "Програма створена для намалювання геометричних фігур.\n" +
                     "Це графічний редактор з набором таких фігур як: точка, лінія, прямокутник, еліпс.\n" +
                     "Для намалювання цих фігур ви можете використовувати Панель інстументів або Меню \"Малювати\".\n" +
@@ -93,6 +103,16 @@ public class ToolWindow extends JDialog {
             for (int i = 0; i < buttons.length; i++) {
                 buttons[i].setBounds(0, i * buttonHeight, buttonWidth, buttonHeight);
             }
+        }
+    }
+
+    private void showColorDialog(JFrame parentFrame, JButton colorButton) {
+        Color initialColor = colorButton.getForeground();
+
+        Color selectedColor = JColorChooser.showDialog(parentFrame, "Choose Color", initialColor);
+
+        if (selectedColor != null) {
+            Shape.setFillColor(selectedColor);
         }
     }
 }

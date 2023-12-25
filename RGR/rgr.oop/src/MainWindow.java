@@ -28,7 +28,7 @@ public class MainWindow extends JFrame {
 
         shapeEditor1 = new ShapeEditor();
         table = MyTable.getInstance(this, shapeEditor1);
-        toolWindow = new ToolWindow(this);
+        toolWindow = new ToolWindow(this, shapeEditor1);
 
         JMenuItem clearDesk = new JMenuItem("Очистити");
         clearDesk.addActionListener(e -> {
@@ -167,16 +167,12 @@ public class MainWindow extends JFrame {
                     s.endPoint = endPoint;
                     s.setColor(Color.BLACK);
                     if (rectangleButton.isSelected()) {
-                        s.setFillColor(Color.BLUE);
                         table.addObjectTable("Прямокутник", startPoint, endPoint);
                     } else if (ellipseButton.isSelected()) {
-                        s.setFillColor(null);
                         table.addObjectTable("Еліпс", startPoint, endPoint);
                     } else if (cubeButton.isSelected()) {
-                        s.setFillColor(null);
                         table.addObjectTable("Куб", startPoint, endPoint);
                     } else if (lineEllipseButton.isSelected()) {
-                        s.setFillColor(null);
                         table.addObjectTable("Лінія з кругами", startPoint, endPoint);
                     } else if (lineButton.isSelected()) {
                         table.addObjectTable("Лінія", startPoint, endPoint);
