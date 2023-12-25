@@ -27,12 +27,13 @@ public class Cube extends Shape{
         lines[3] = new Line(new Point(x1 + width, y1 + height), new Point(x2 + width, y2 + height), color);
         g.setColor(color);
 
+        lines[1].draw(g);
+        lines[2].draw(g);
+        lines[3].draw(g);
+
         for (Rectangle rectangle : rectangles){
             rectangle.draw(g);
         }
-
-        for (Line line : lines){
-            line.draw(g);
-        }
+        lines[0].draw(g);
     }
 }

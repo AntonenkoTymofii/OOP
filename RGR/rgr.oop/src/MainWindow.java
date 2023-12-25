@@ -30,7 +30,7 @@ public class MainWindow extends JFrame {
         table = MyTable.getInstance(this, shapeEditor1);
         toolWindow = new ToolWindow(this);
 
-        JMenuItem clearDesk = new JMenuItem("Очистити");
+        JButton clearDesk = new JButton("Очистити");
         clearDesk.addActionListener(e -> clearPanel());
 
         JButton openTable = new JButton("Відкрити таблицю");
@@ -70,11 +70,12 @@ public class MainWindow extends JFrame {
         optionsMenu.add(ellipseButton);
         optionsMenu.add(cubeButton);
         optionsMenu.add(lineEllipseButton);
-        optionsMenu.add(clearDesk);
+
 
         menuBar.add(optionsMenu);
         menuBar.add(openTable);
         menuBar.add(openToolWindow);
+        menuBar.add(clearDesk);
         super.setJMenuBar(menuBar);
         super.repaint();
 

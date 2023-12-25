@@ -9,7 +9,6 @@ public abstract class Shape {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.color = color;
-        fillColor = null;
     }
     public abstract void draw(Graphics g);
     public void setColor(Color c) {
