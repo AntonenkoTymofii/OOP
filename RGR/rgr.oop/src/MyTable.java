@@ -29,7 +29,6 @@ public class MyTable extends JDialog{
                 selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
                     shapes.get(selectedRow).setColor(Color.RED);
-                    shapes.get(selectedRow).setFillColor(Color.lightGray);
                     repaint();
                 }
             }
